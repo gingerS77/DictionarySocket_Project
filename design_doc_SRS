@@ -1,0 +1,12 @@
+We would be first implementing the wrapper on queue -
+
+It'd be like this -
+It'll be a shared queue, can be accessed by multiple threads.... 
+If the queue is empty, then who is popping shud wait until something is pushed into the queue... pthread_cond_wait
+
+If the queue is full, then who is pushing shud wait until something is popped from it.  
+
+
+cond_wait() , if it waits and goes to sleep, then it will unlock the mutex
+
+and when it woke up by cond_signal() , then it gain locks on that mutex....
