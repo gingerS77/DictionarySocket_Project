@@ -35,7 +35,8 @@ void * cientThread(void *arg)
   addr_size = sizeof serverAddr;
   int connResp = connect(clientSocket, (struct sockaddr *) &serverAddr, addr_size);
   printf("client thread after Connect, response # %d\n",connResp);
-  vector<string> testing_strings{"exodus","globus","aggressive","aggresive","evaluate","pandemic","pandmic"};
+  vector<string> testing_strings = *((vector<string>*)arg);
+  //vector<string> testing_strings{"exodus","globus","aggressive","aggresive","evaluate","pandemic","pandmic"};
   for(int i=0; i < testing_strings.size(); ++i){
 	  if( send(clientSocket , testing_strings[i].c_str() , testing_strings[i].length() , 0) < 0)
 	  {
@@ -59,22 +60,32 @@ void * cientThread(void *arg)
 
 int main()
 {
-  int i = 0;
-  pthread_t tid;
-  // while(i < 4)
-  // {
-    if( pthread_create(&tid, NULL, cientThread, NULL) != 0 )
-          printf("Failed to create thread\n");
+  	int i = 0;
+  	pthread_t tid[4];
+  	// while(i < 4)
+  	// {
+  //vector<string> testing_strings{"exodus","globus","aggressive","aggresive","evaluate","pandemic","pandmic"};
+  	vector<vector<string>> test_strArr{
+  						{"exodus","globus","aggressive","aggresive","evaluate","pandemic","pandmic"},
+  						{"frontliners","dctors","nurses","hositals","afected","contract","devloped"},
+  						{"daly","surging","rumur","experts","gography","worldwide","covid"},
+  						{"kiney","liver","cron","hydrate","hyrated","avod","mask"}	
+  	};
+  	//int i=0;
+   	for(; i < 4; ++i){
+    	if( pthread_create(&tid[i], NULL, cientThread, &test_strArr[i]) != 0 )
+          	printf("Failed to create thread\n");
+  	}
   //   ++i;
   // }
 
   
-  // i = 0;
-  // while(i < 4)
-  // {
-     pthread_join(tid,NULL);
-     printf("Main: Client thread: joined\n");
-  //}
-  return 0;
+ 	i = 0;
+  	while(i < 4)
+  	{
+     	pthread_join(tid[i++],NULL);
+     	printf("Main: Client thread: joined\n");
+  	}
+  	return 0;
 }
  
