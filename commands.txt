@@ -1,0 +1,3 @@
+Creating server executable :  g++ -g -o socketserver socket_server_main.cpp -lpthread -std=gnu++11
+
+For creating client executable: g++ -g -o socketclient socket_client_dictionary.c -lpthread -std=gnu++11
